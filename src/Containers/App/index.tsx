@@ -5,17 +5,20 @@ import {
   Switch,
   Route,
 } from "react-router-dom"
+import './index.css'
 
 const App: FC = () => {
   return (
-      <Switch>
-          <Route path="/client">
-              <Client />
-          </Route>
-          <Route path="/dashboard">
-              <Dashboard />
-          </Route>
-      </Switch>
+      <div className="App">
+          <Switch>
+              <Route path="/client">
+                  <Client />
+              </Route>
+              <Route path="/dashboard">
+                  <Dashboard />
+              </Route>
+          </Switch>
+      </div>
   );
 }
 
