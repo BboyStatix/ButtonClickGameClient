@@ -1,6 +1,7 @@
 import React, {FC} from "react";
 import {gql} from "apollo-boost"
 import {useLazyQuery} from '@apollo/react-hooks';
+import { styles } from './Styles'
 
 const BROADCAST_CLICK = gql`
     query broadcastClick($timestamp: String!, $type: Colour!) {
@@ -11,7 +12,6 @@ const BROADCAST_CLICK = gql`
     }
 `
 
-
 const Client: FC = () => {
     const [broadcastClick, {loading, error, data}] = useLazyQuery(BROADCAST_CLICK);
     if (loading) return (<div>Loading...</div>);
@@ -20,12 +20,22 @@ const Client: FC = () => {
     return (
         <div className='client'>
             <button
+                style={{...styles.button, ...styles.orangeButton}}
+                onClick={() => broadcastClick(
+                    {variables: {timestamp: `${Date.now()}`, type: 'orange'}}
+                    )
+                }
+            >
+                -
+            </button>
+            <button
+                style={{...styles.button, ...styles.blueButton}}
                 onClick={() => broadcastClick(
                     {variables: {timestamp: `${Date.now()}`, type: 'blue'}}
                     )
                 }
             >
-                Client
+                +
             </button>
         </div>
     )
