@@ -13,9 +13,7 @@ const BROADCAST_CLICK = gql`
 `
 
 const Client: FC = () => {
-    const [broadcastClick, {loading, error, data}] = useLazyQuery(BROADCAST_CLICK);
-    if (loading) return (<div>Loading...</div>);
-    if (error) return <div>{`Error! ${error.message}`}</div>;
+    const [broadcastClick, {data}] = useLazyQuery(BROADCAST_CLICK);
 
     return (
         <div className='client'>
