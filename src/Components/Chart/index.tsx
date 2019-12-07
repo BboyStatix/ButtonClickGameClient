@@ -26,23 +26,21 @@ const Chart: FC = () => {
     ];
 
     return (
-        <div className='dashboard'>
-            <LineChart
-                width={500}
-                height={300}
-                data={initialData}
-            >
-                <CartesianGrid />
-                <XAxis>
-                    <Label value={"Second(s)"} />
-                </XAxis>
-                <YAxis label={{ value: 'Click(s)' }}/>
-                <Tooltip />
-                <Line type="monotone" dataKey="orange" stroke="orange" />
-                <Line type="monotone" dataKey="blue" stroke="blue" />
-                <Line type="monotone" dataKey="black" stroke="black" />
-            </LineChart>
-        </div>
+        <LineChart
+            width={500}
+            height={300}
+            data={initialData}
+        >
+            <CartesianGrid />
+            <XAxis>
+                <Label value={"Second(s)"} />
+            </XAxis>
+            <YAxis label={{ value: 'Click(s)' }}/>
+            <Tooltip />
+            <Line type="monotone" dataKey="orange" stroke="orange" />
+            <Line type="monotone" dataKey="blue" stroke="blue" />
+            <Line type="monotone" dataKey="black" stroke="black" />
+        </LineChart>
     )
 }
 
