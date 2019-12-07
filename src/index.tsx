@@ -11,14 +11,14 @@ import { getMainDefinition } from 'apollo-utilities'
 import {InMemoryCache} from 'apollo-boost'
 
 const wsLink = new WebSocketLink({
-    uri: `ws://localhost:4000/graphql`,
+    uri: `${process.env.REACT_APP_WEBSOCKET_URL}`,
     options: {
         reconnect: true
     }
 })
 
 const httpLink = new HttpLink({
-    uri: `http://localhost:4000`
+    uri: `${process.env.REACT_APP_SERVER_URL}`
 })
 
 const link = split(
