@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import {gql} from "apollo-boost"
 import {useLazyQuery} from '@apollo/react-hooks';
-import { styles } from './Styles'
+import styles from './Styles'
 
 const BROADCAST_CLICK = gql`
     query broadcastClick($timestamp: String!, $type: Colour!) {

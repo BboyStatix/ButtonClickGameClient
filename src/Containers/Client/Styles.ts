@@ -1,12 +1,12 @@
-export const styles = {
+export default {
     button: {
         borderRadius: "50%",
         borderWidth: 0,
         color: "#fff",
-        fontSize: "50px",
-        height: "250px",
-        width: "250px",
-        margin: "10px",
+        fontSize: 50,
+        height: 250,
+        width: 250,
+        margin: 10,
         cursor: "pointer"
     },
     orangeButton: {
