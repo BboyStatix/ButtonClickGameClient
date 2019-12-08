@@ -1,9 +1,7 @@
-import React, {FC, useState} from "react";
+import React, {FC} from "react";
 import styles from "./Styles";
 
-const ClickCounter: FC<{type:string}> = ({type}) => {
-    const [count,setState] = useState(0)
-
+const ClickCounter: FC<{type: string,count: number}> = ({type,count}) => {
     return (
         <div style={{...styles.counter, ...{backgroundColor: type}}}>
             {count}
