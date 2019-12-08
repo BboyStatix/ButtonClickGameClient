@@ -1,4 +1,4 @@
-import React, {FC, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import Chart from "../../Components/Chart";
 import ClickCounter from "../../Components/ClickCounter";
 import {gql} from "apollo-boost"
@@ -14,30 +14,6 @@ const CLICK_SUBSCRIPTION = gql`
     }
 `
 
-// const SUBSCRIBE = gql`
-//     query {
-//         subscribe {
-//             success
-//             subscriptionId
-//         }
-//     }
-// `
-//
-// const UNSUBSCRIBE = gql`
-//     query unsubscribe($subscriptionId: ID!){
-//         unsubscribe(subscriptionId: $subscriptionId) {
-//             success
-//         }
-//     }
-// `
-
-// interface SubscriptionResponse {
-//     subscribe: {
-//         subscriptionId: number
-//         success: boolean,
-//     }
-// }
-
 interface SubscriptionData {
     type: string,
     timestamp: string
@@ -46,68 +22,51 @@ interface SubscriptionData {
 const Dashboard: FC = () => {
     const [orangeClickCount,setOrangeClickCount] = useState(0)
     const [blueClickCount,setBlueClickCount] = useState(0)
-    const {loading, error, data} = useSubscription(CLICK_SUBSCRIPTION,
+    const [gameState, setGameState] = useState('notStarted')
+    const initialSubscriptionData:SubscriptionData[] = []
+    const [subscriptionData, setSubscriptionData] = useState(initialSubscriptionData)
+    useSubscription(CLICK_SUBSCRIPTION,
         {onSubscriptionData: ({subscriptionData}) => {
                 handleSubscriptionData(subscriptionData.data.clickBroadcast)
             }
         })
 
     const handleSubscriptionData = ({type, timestamp}:SubscriptionData) => {
-        console.log({type, timestamp})
-        switch (type) {
-            case 'blue':
-                setBlueClickCount(blueClickCount+1)
-                return
-            case 'orange':
-                setOrangeClickCount(orangeClickCount+1)
-                return
+        if(gameState !== 'ended') {
+            setSubscriptionData(subscriptionData.concat({type, timestamp}))
+            switch (type) {
+                case 'blue':
+                    setBlueClickCount(blueClickCount+1)
+                    break
+                case 'orange':
+                    setOrangeClickCount(orangeClickCount+1)
+                    break
+            }
+
+            if(gameState === "notStarted") {
+                setGameState("inProgress")
+            }
         }
-        // handleClickData({type, timestamp})
-        // console.log({type,timestamp})
-        // setTimeout(unsubscribe, 1000)
     }
 
-    // const [subscriptionId, setSubscriptionId] = useState(null)
-    // const [unsubscribe] = useLazyQuery(UNSUBSCRIBE)
+    useEffect(() => {
+        switch (gameState) {
+            case 'inProgress':
+                setTimeout(endGame, 1000)
+                return
+            case 'ended':
+                updateChart()
+                return
+        }
+    }, [gameState])
 
-    // console.log({subscriptionId})
+    const endGame = () => {
+        setGameState('ended')
+    }
 
-    // const {data: subscriptionResponse} = useQuery(SUBSCRIBE)
-    // if(subscriptionResponse && subscriptionResponse.subscribe && subscriptionResponse.subscribe.subscriptionId) {
-    //     const prevSubId = subscriptionId
-    //     const newSubId = subscriptionResponse.subscribe.subscriptionId
-    //     if(prevSubId !== newSubId) {
-    //         setSubscriptionId(newSubId)
-    //     }
-    // }
-
-
-    // useEffect(() => {
-    //     window.addEventListener('beforeunload', () => {
-    //         console.log({'beforeunload': subscriptionId})
-    //         unsubscribe({variables: {subscriptionId: subscriptionId}})
-    //     })
-    // })
-
-    // useEffect(() => {
-    //     return () => {
-    //         console.log('unmount')
-    //         console.log({'handleunsubscribe': subscriptionId})
-    //
-    //     }
-    // }, [])
-
-    // const handleUnsubscribe = async (subscriptionId:string) => {
-    //     await unsubscribe({variables: {subscriptionId: subscriptionId}})
-    // }
-
-    // const handleUnsubscribe = () => {
-    //     console.log('unsubscribing beforeunload lol')
-    //     console.log({'handleunsubscribe': subscriptionId})
-    //     if(subscriptionId)
-    //         unsubscribe({variables: {subscriptionId: subscriptionId}})
-    //     // unsubscribe({variables: {subscriptionId: subscriptionId}})
-    // }
+    const updateChart = () => {
+        console.log('updateChart now!')
+    }
 
     return (
         <div className='dashboard'>
@@ -117,9 +76,6 @@ const Dashboard: FC = () => {
             <ClickCounter type={'blue'} count={blueClickCount} />
 
             <Link to={'/client'}>Client</Link>
-            {/*{subscriptionId &&*/}
-            {/*    <div onClick={() => unsubscribe({variables: {subscriptionId: subscriptionId}})}>Unsubscribe</div>*/}
-            {/*}*/}
         </div>
     )
 }
