@@ -4,6 +4,7 @@ import ClickCounter from "../../Components/ClickCounter";
 import {gql} from "apollo-boost"
 import {useSubscription} from '@apollo/react-hooks';
 import {Link} from "react-router-dom";
+import {initialChartData} from "./initialChartData";
 
 const CLICK_SUBSCRIPTION = gql`
     subscription {
@@ -25,6 +26,7 @@ const Dashboard: FC = () => {
     const [gameState, setGameState] = useState('notStarted')
     const initialSubscriptionData:SubscriptionData[] = []
     const [subscriptionData, setSubscriptionData] = useState(initialSubscriptionData)
+    const [chartData] = useState(initialChartData)
     useSubscription(CLICK_SUBSCRIPTION,
         {onSubscriptionData: ({subscriptionData}) => {
                 handleSubscriptionData(subscriptionData.data.clickBroadcast)
@@ -71,7 +73,7 @@ const Dashboard: FC = () => {
     return (
         <div className='dashboard'>
             Dashboard
-            <Chart />
+            <Chart data={chartData} />
             <ClickCounter type={'orange'} count={orangeClickCount} />
             <ClickCounter type={'blue'} count={blueClickCount} />
 

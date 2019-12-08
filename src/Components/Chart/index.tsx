@@ -2,34 +2,14 @@ import React, {FC} from "react";
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Label,
 } from 'recharts';
+import {ChartDataItem} from "../../Containers/Dashboard/initialChartData";
 
-const Chart: FC = () => {
-    const initialData = [
-        {
-            name: '0', orange: 0, blue: 0, black: 0,
-        },
-        {
-            name: '1', orange: 0, blue: 0, black: 0,
-        },
-        {
-            name: '2', orange: 0, blue: 0, black: 0,
-        },
-        {
-            name: '3', orange: 0, blue: 0, black: 0,
-        },
-        {
-            name: '4', orange: 0, blue: 0, black: 0,
-        },
-        {
-            name: '5', orange: 0, blue: 0, black: 0,
-        }
-    ];
-
+const Chart: FC<{data:ChartDataItem[]}> = ({data}) => {
     return (
         <LineChart
             width={500}
             height={300}
-            data={initialData}
+            data={data}
         >
             <CartesianGrid />
             <XAxis>
