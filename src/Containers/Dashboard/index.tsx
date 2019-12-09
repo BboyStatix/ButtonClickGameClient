@@ -6,8 +6,10 @@ import {useSubscription} from '@apollo/react-hooks';
 import {Link} from "react-router-dom";
 import {initialChartData} from "./initialChartData";
 import {formatDataForChart} from "../../Utils/formatDataForChart";
+import QRCode from "qrcode.react"
 
 const GAME_LENGTH=5000
+const CLIENT_URL=`${process.env.REACT_APP_HOST_URL}/client`
 
 const CLICK_SUBSCRIPTION = gql`
     subscription {
@@ -73,12 +75,15 @@ const Dashboard: FC = () => {
 
     return (
         <div className='dashboard'>
-            Dashboard
             <Chart data={chartData} />
             <ClickCounter type={'orange'} count={orangeClickCount} />
             <ClickCounter type={'blue'} count={blueClickCount} />
 
-            <div>Please go to <Link to={`/client`}>{`${process.env.REACT_APP_HOST_URL}/client`}</Link> to join the game</div>
+            <div style={{marginBottom: 20}}>
+                Please go to <Link to={`/client`}>{CLIENT_URL}</Link> to join the game
+            </div>
+
+            <QRCode size={200} value={CLIENT_URL} />
         </div>
     )
 }
