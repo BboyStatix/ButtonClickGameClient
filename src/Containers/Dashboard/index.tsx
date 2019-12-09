@@ -18,7 +18,7 @@ const CLICK_SUBSCRIPTION = gql`
     }
 `
 
-interface SubscriptionData {
+interface SubscriptionDataItem {
     type: string,
     timestamp: string
 }
@@ -27,16 +27,15 @@ const Dashboard: FC = () => {
     const [orangeClickCount,setOrangeClickCount] = useState(0)
     const [blueClickCount,setBlueClickCount] = useState(0)
     const [gameState, setGameState] = useState('notStarted')
-    const initialSubscriptionData:SubscriptionData[] = []
-    const [subscriptionData, setSubscriptionData] = useState(initialSubscriptionData)
-    const [chartData] = useState(initialChartData)
+    const [subscriptionData, setSubscriptionData] = useState<SubscriptionDataItem[]>([])
+    const [chartData,setChartData] = useState(initialChartData)
     useSubscription(CLICK_SUBSCRIPTION,
         {onSubscriptionData: ({subscriptionData}) => {
                 handleSubscriptionData(subscriptionData.data.clickBroadcast)
             }
         })
 
-    const handleSubscriptionData = ({type, timestamp}:SubscriptionData) => {
+    const handleSubscriptionData = ({type, timestamp}:SubscriptionDataItem) => {
         if(gameState !== 'ended') {
             setSubscriptionData(subscriptionData.concat({type, timestamp}))
             switch (type) {
@@ -54,24 +53,23 @@ const Dashboard: FC = () => {
         }
     }
 
+    const updateChart = () => {
+        console.log('updateChart now!')
+        const formattedData = formatDataForChart(subscriptionData)
+        console.log(formattedData)
+        setChartData(formattedData)
+    }
+
     useEffect(() => {
         switch (gameState) {
             case 'inProgress':
-                setTimeout(endGame, GAME_LENGTH)
+                setTimeout(() => setGameState('ended'), GAME_LENGTH)
                 return
             case 'ended':
                 updateChart()
                 return
         }
     }, [gameState])
-
-    const endGame = () => {
-        setGameState('ended')
-    }
-
-    const updateChart = () => {
-        console.log('updateChart now!')
-    }
 
     return (
         <div className='dashboard'>
