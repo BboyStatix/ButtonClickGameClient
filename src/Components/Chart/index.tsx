@@ -1,26 +1,24 @@
 import React, {FC} from "react";
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Label,
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Label, ResponsiveContainer,
 } from 'recharts';
 import {ChartDataItem} from "../../Containers/Dashboard/initialChartData";
 
 const Chart: FC<{data:ChartDataItem[]}> = ({data}) => {
     return (
-        <LineChart
-            width={500}
-            height={300}
-            data={data}
-        >
-            <CartesianGrid />
-            <XAxis>
-                <Label value={"Second(s)"} />
-            </XAxis>
-            <YAxis label={{ value: 'Click(s)' }}/>
-            <Tooltip />
-            <Line type="monotone" dataKey="orange" stroke="orange" />
-            <Line type="monotone" dataKey="blue" stroke="blue" />
-            <Line type="monotone" dataKey="black" stroke="black" />
-        </LineChart>
+        <ResponsiveContainer width={"100%"} height={300}>
+            <LineChart data={data}>
+                <CartesianGrid />
+                <XAxis>
+                    <Label value={"Second(s)"} />
+                </XAxis>
+                <YAxis label={{ value: 'Click(s)' }}/>
+                <Tooltip />
+                <Line type="monotone" dataKey="orange" stroke="orange" strokeWidth={4} />
+                <Line type="monotone" dataKey="blue" stroke="blue" strokeWidth={4} />
+                <Line type="monotone" dataKey="black" stroke="black" strokeWidth={4} />
+            </LineChart>
+        </ResponsiveContainer>
     )
 }
 
