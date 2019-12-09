@@ -78,7 +78,7 @@ const Dashboard: FC = () => {
             <ClickCounter type={'orange'} count={orangeClickCount} />
             <ClickCounter type={'blue'} count={blueClickCount} />
 
-            <Link to={'/client'}>Client</Link>
+            <div>Please go to <Link to={`/client`}>{`${process.env.REACT_APP_HOST_URL}/client`}</Link> to join the game</div>
         </div>
     )
 }
