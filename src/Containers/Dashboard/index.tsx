@@ -5,6 +5,9 @@ import {gql} from "apollo-boost"
 import {useSubscription} from '@apollo/react-hooks';
 import {Link} from "react-router-dom";
 import {initialChartData} from "./initialChartData";
+import {formatDataForChart} from "../../Utils/formatDataForChart";
+
+const GAME_LENGTH=5000
 
 const CLICK_SUBSCRIPTION = gql`
     subscription {
@@ -54,7 +57,7 @@ const Dashboard: FC = () => {
     useEffect(() => {
         switch (gameState) {
             case 'inProgress':
-                setTimeout(endGame, 1000)
+                setTimeout(endGame, GAME_LENGTH)
                 return
             case 'ended':
                 updateChart()
