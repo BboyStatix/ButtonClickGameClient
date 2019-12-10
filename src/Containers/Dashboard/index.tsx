@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from "react";
 import Chart from "../../Components/Chart";
-import ClickCounter from "../../Components/ClickCounter";
+import Counter from "../../Components/Counter";
 import {gql} from "apollo-boost"
 import {useSubscription} from '@apollo/react-hooks';
 import {Link} from "react-router-dom";
@@ -76,8 +76,9 @@ const Dashboard: FC = () => {
     return (
         <div className='dashboard'>
             <Chart data={chartData} />
-            <ClickCounter type={'orange'} count={orangeClickCount} />
-            <ClickCounter type={'blue'} count={blueClickCount} />
+
+            <Counter type={'orange'} count={orangeClickCount} />
+            <Counter type={'blue'} count={blueClickCount} />
 
             <div style={{marginBottom: 20}}>
                 Please go to <Link to={`/client`}>{CLIENT_URL}</Link> to join the game
