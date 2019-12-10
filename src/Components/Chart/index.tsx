@@ -3,6 +3,7 @@ import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Label, ResponsiveContainer,
 } from 'recharts';
 import {ChartDataItem} from "../../Containers/Dashboard/initialChartData";
+import Colors from "../../Colors";
 
 const Chart: FC<{data:ChartDataItem[]}> = ({data}) => {
     return (
@@ -14,8 +15,8 @@ const Chart: FC<{data:ChartDataItem[]}> = ({data}) => {
                 </XAxis>
                 <YAxis label={{ value: 'Click(s)' }}/>
                 <Tooltip />
-                <Line type="monotone" dataKey="orange" stroke="orange" strokeWidth={4} />
-                <Line type="monotone" dataKey="blue" stroke="blue" strokeWidth={4} />
+                <Line type="monotone" dataKey="orange" stroke={Colors.orange} strokeWidth={4} />
+                <Line type="monotone" dataKey="blue" stroke={Colors.blue} strokeWidth={4} />
                 <Line type="monotone" dataKey="black" stroke="black" strokeWidth={4} />
             </LineChart>
         </ResponsiveContainer>
